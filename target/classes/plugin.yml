@@ -1,0 +1,13 @@
+name: DoorCloser
+main: net.tenrem.doorcloser.DoorCloserPlugin
+version: ${version}
+
+author: Pete Brown 10rem.net
+commands:
+   dcreload:
+      description: Reload the configuration file.
+      usage: "Usage: '/dcreload' to reload configuration file."
+      permission: tenrem.doorcloser.reload
+      permission-message: You don't have permission to reload the configuration file.
+   
+   
