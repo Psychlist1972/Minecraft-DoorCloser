@@ -10,3 +10,6 @@ Requires
 Latest .jar file can be found in the /target folder
 
 Standard configuration File can be found in /src/main/resources/config.yml. This was built with Spigot 1.12. If new door/gate/trap-door materials are added, you'll want to add them to the config file.
+
+Spigot resource page:
+https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
