@@ -13,3 +13,5 @@ Standard configuration File can be found in /src/main/resources/config.yml. This
 
 Spigot resource page:
 https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
+
+[![Overview Video](http://img.youtube.com/vi/sSEuPI7GZ9I/0.jpg)](http://www.youtube.com/watch?v=sSEuPI7GZ9I)
