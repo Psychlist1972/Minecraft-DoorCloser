@@ -15,3 +15,9 @@ Spigot resource page:
 https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
 
 [![Overview Video](http://img.youtube.com/vi/sSEuPI7GZ9I/0.jpg)](http://www.youtube.com/watch?v=sSEuPI7GZ9I)
+
+
+## Bukkit/Spigot Programming links
+
+* [Bukkit Plugin Tutorial](http://bukkit.gamepedia.com/Plugin_Tutorial)
+* [Spigot JavaDocs](https://hub.spigotmc.org/javadocs/spigot/)
