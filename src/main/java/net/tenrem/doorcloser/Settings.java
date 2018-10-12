@@ -9,6 +9,7 @@ public class Settings
 	public static int secondsToRemainOpen = 10;
 	public static boolean ignoreIfInCreative = false;
 	public static boolean ignoreIfSneaking = false;
+	public static boolean playSound = true;
 
 	public static List<Material> doorsInScope = new ArrayList<Material>();
 	public static List<Material> gatesInScope = new ArrayList<Material>();
@@ -42,6 +43,7 @@ public class Settings
 		Settings.secondsToRemainOpen = ThisPlugin.getConfig().getInt("Time");
 		Settings.ignoreIfInCreative = ThisPlugin.getConfig().getBoolean("IgnoreIfInCreative");
 		Settings.ignoreIfSneaking = ThisPlugin.getConfig().getBoolean("IgnoreIfSneaking");
+		Settings.playSound = ThisPlugin.getConfig().getBoolean("PlaySound");
 		
 		List<String> trapDoorsInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("TrapDoorBlocks");
 		List<String> gatesInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("GateBlocks");
@@ -80,6 +82,7 @@ public class Settings
 		ThisPlugin.getLogger().info("Seconds to remain open: " + Settings.secondsToRemainOpen);
 		ThisPlugin.getLogger().info("Ignore if in creative mode: " + Settings.ignoreIfInCreative);
 		ThisPlugin.getLogger().info("Ignore if sneaking: " + Settings.ignoreIfSneaking);
+		ThisPlugin.getLogger().info("Play sound: " + Settings.playSound);
 		
 		if (Settings.trapDoorsInScope.isEmpty() && Settings.gatesInScope.isEmpty() && Settings.doorsInScope.isEmpty())
 		{

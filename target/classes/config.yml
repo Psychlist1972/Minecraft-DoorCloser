@@ -1,22 +1,33 @@
 # Config file for DoorCloser
 
 # Time (in integer seconds) to allow the door to remain open
-Time: 20
+Time: 10
 
-# true if you want to ignore the door opening when the player is in creative mode
+# True if the door/gate/trapdoor closing sound should be played
+PlaySound: true
+
+# true if you want to ignore the door when the player is in creative mode
+# if this is not set to true, you'll never be able to create an open door
+# unless you turn on sneaking.
 IgnoreIfInCreative: true
 
-# true if you want to ignore the door opening when the player is sneaking
+# true if you want to ignore the door when the player is sneaking
+# note that this will work for all players, not just someone in creative
 IgnoreIfSneaking: false
 
 # List of Block IDs for blocks (trap doors, gates, and doors) that you want to auto-close
 # Case is not important, but use the official block names as found here:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 TrapDoorBlocks:
-- trap_door
+- acacia_trapdoor
+- birch_trapdoor
+- dark_oak_trapdoor
+- jungle_trapdoor
+- oak_trapdoor
+- spruce_trapdoor
 
 GateBlocks:
-- fence_gate
+- oak_fence_gate
 - spruce_fence_gate
 - birch_fence_gate
 - jungle_fence_gate
@@ -24,12 +35,13 @@ GateBlocks:
 - acacia_fence_gate
 
 DoorBlocks:
-- wooden_door
+- oak_door
 - spruce_door
 - birch_door
 - jungle_door
 - acacia_door
 - dark_oak_door
+
 
 
 
