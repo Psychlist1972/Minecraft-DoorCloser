@@ -51,24 +51,22 @@ public final class InteractListener implements Listener
 		{
 			Block clickedBlock = e.getClickedBlock();
 			BlockData blockData = clickedBlock.getBlockData();
-			//BlockState state = clickedBlock.getState();
 			 
 			// check to see if we care about this type of block. In our case, we want
 			// something that implements Openable (gate, trap door, door).
-			//if ((state != null) && (state.getData() != null) && (state.getData() instanceof Openable))
 			if (blockData instanceof Openable)
 			{		 
 				 // check to see if we're ignoring creative mode
 				if ((e.getPlayer().getGameMode() == GameMode.CREATIVE) && (Settings.ignoreIfInCreative))
 				{
-					_plugin.getLogger().info("DEBUG: Ignored - in creative mode");
+				//	_plugin.getLogger().info("DEBUG: Ignored - in creative mode");
 					return;
 				}
 	
 				 // check to see if we're ignoring sneaking
 				if ((e.getPlayer().isSneaking()) && (Settings.ignoreIfSneaking))
 				{
-					_plugin.getLogger().info("DEBUG: Ignored - is sneaking");
+				//	_plugin.getLogger().info("DEBUG: Ignored - is sneaking");
 					return;
 				}
 		      
@@ -84,21 +82,21 @@ public final class InteractListener implements Listener
 				
 				if (blockData instanceof TrapDoor && Settings.trapDoorsInScope.contains(blockDoorType))
 				{
-					_plugin.getLogger().info("DEBUG: Trap door found: " + clickedBlock.getType().toString());
+				//	_plugin.getLogger().info("DEBUG: Trap door found: " + clickedBlock.getType().toString());
 
 					ScheduleClose(clickedBlock, Settings.secondsToRemainOpen);				 
 				}
 				 
 				else if (blockData instanceof Gate && Settings.gatesInScope.contains(blockDoorType))
 				{
-					_plugin.getLogger().info("DEBUG: Gate found: " + clickedBlock.getType().toString());
+				//	_plugin.getLogger().info("DEBUG: Gate found: " + clickedBlock.getType().toString());
 
 					ScheduleClose(clickedBlock, Settings.secondsToRemainOpen);				 
 				}
 				 
 				else if (blockData instanceof Door && Settings.doorsInScope.contains(blockDoorType))
 				{
-					_plugin.getLogger().info("DEBUG: Normal door found: " + clickedBlock.getType().toString());
+				//	_plugin.getLogger().info("DEBUG: Normal door found: " + clickedBlock.getType().toString());
 
 					// check to see if they clicked the top of the door. If so, change to the block below it.
 					// Necessary because server only supports the door operations on the lower block.
@@ -117,7 +115,7 @@ public final class InteractListener implements Listener
 				else
 				{
 					// be sure to comment this out or change log level or else it will spam the logs
-					_plugin.getLogger().info("DEBUG: Unexpected block: " + blockDoorType.toString());
+				//	_plugin.getLogger().info("DEBUG: Unexpected block: " + blockDoorType.toString());
 				}
 			}
 		}
@@ -133,68 +131,59 @@ public final class InteractListener implements Listener
 				@Override
 				public void run()
 				{
-					_plugin.getLogger().info("DEBUG: In the running / scheduled task.");
-
-					// get current block state
-					//BlockState state = block.getState();
-					//BlockData data = state.getBlockData();
+					//_plugin.getLogger().info("DEBUG: In the running / scheduled task.");
 
 					BlockData data = doorBlock.getBlockData();
 
 
-//					if (state != null)
-//					{
-//						BlockData data = state.getBlockData();
-						//MaterialData data = state.getData();
-
-						if (data != null)
+					if (data != null)
+					{
+						if (data instanceof Openable)
 						{
-							if (data instanceof Openable)
+							Openable doorData = (Openable)data;
+							
+							// this is the point of the whole plugin right here.
+							if (doorData.isOpen())
 							{
-								Openable doorData = (Openable)data;
+								//_plugin.getLogger().info("DEBUG: Closing open door");
+
+								doorData.setOpen(false);
+								doorBlock.setBlockData(doorData);
 								
-								// this is the point of the whole plugin right here.
-								if (doorData.isOpen())
+								if (Settings.playSound)
 								{
-									_plugin.getLogger().info("DEBUG: Closing open door");
-
-									doorData.setOpen(false);
-									doorBlock.setBlockData(doorData);
-									
-									if (Settings.playSound)
+									if (doorData instanceof TrapDoor)
 									{
-										if (doorData instanceof TrapDoor)
-										{
-											doorBlock.getWorld().playSound(doorBlock.getLocation(), Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE, 1, 1);
-										}
-										else if (doorData instanceof Gate)
-										{
-											doorBlock.getWorld().playSound(doorBlock.getLocation(), Sound.BLOCK_FENCE_GATE_CLOSE, 1, 1);
-
-										}
-										else if (doorData instanceof Door)
-										{
-											doorBlock.getWorld().playSound(doorBlock.getLocation(), Sound.BLOCK_WOODEN_DOOR_CLOSE, 1, 1);
-
-										}
+										doorBlock.getWorld().playSound(doorBlock.getLocation(), Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE, 1, 1);
 									}
-								}
-								else
-								{
-									_plugin.getLogger().info("DEBUG: Door was closed before we got to auto-close it.");	
+									else if (doorData instanceof Gate)
+									{
+										doorBlock.getWorld().playSound(doorBlock.getLocation(), Sound.BLOCK_FENCE_GATE_CLOSE, 1, 1);
+
+									}
+									else if (doorData instanceof Door)
+									{
+										doorBlock.getWorld().playSound(doorBlock.getLocation(), Sound.BLOCK_WOODEN_DOOR_CLOSE, 1, 1);
+
+									}
 								}
 							}
 							else
 							{
-								// to be useful, this should probably include material information
-								_plugin.getLogger().warning("Tried to close the block, but block data instanceof Openable check failed.");
+								//_plugin.getLogger().info("DEBUG: Door was closed before we got to auto-close it.");	
 							}
 						}
 						else
 						{
-							_plugin.getLogger().warning("Tried to close block, but block data was null.");
+							// to be useful, this should probably include material information
+							_plugin.getLogger().warning("Tried to close the block, but block data instanceof Openable check failed.");
 						}
-//					}
+					}
+					else
+					{
+						_plugin.getLogger().warning("Tried to close block, but block data was null.");
+					}
+
 				}
 		
 			}, (long)seconds * TICKS_PER_SECOND);
