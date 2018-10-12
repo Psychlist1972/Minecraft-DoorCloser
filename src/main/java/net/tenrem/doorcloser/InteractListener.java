@@ -3,17 +3,13 @@ package net.tenrem.doorcloser;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 
-import java.util.HashMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -100,7 +96,7 @@ public final class InteractListener implements Listener
 	public void ScheduleClose(Block block, int seconds)
 	{		
 		// Schedule the closing to happen at apx "seconds" seconds from now.
-		BukkitTask timer = Bukkit.getScheduler().runTaskLater(DoorCloserPlugin.getInstance(), new Runnable()
+		Bukkit.getScheduler().runTaskLater(_plugin, new Runnable()
 			{
 				@Override
 				public void run()
