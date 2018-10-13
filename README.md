@@ -5,11 +5,14 @@ You can configure which ones are in scope to be auto-closed, as well as if it sh
 
 Requires
 * Java 1.8
-* Minecraft Spigot 1.12
+* Minecraft Spigot 1.12 (for 1.0.3 plugin)
+* Minecraft Spigot 1.13.1 (for subsequent plugin versions)
 
 Latest .jar file can be found in the /target folder
 
-Standard configuration File can be found in /src/main/resources/config.yml. This was built with Spigot 1.12. If new door/gate/trap-door materials are added, you'll want to add them to the config file.
+Latest standard configuration File can be found in /src/main/resources/config.yml. It's also auto-generated when you load the plugin for the first time.
+
+1.13.1 version supports all new 1.13 types.
 
 Spigot resource page:
 https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
