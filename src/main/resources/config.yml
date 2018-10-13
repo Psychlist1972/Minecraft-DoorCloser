@@ -3,6 +3,17 @@
 # Time (in integer seconds) to allow the door to remain open
 Time: 10
 
+# double-door handling. This is a bit outside the original scope
+# of this plugin, but was a community request. It's optional here
+# because you may already have plugins handling this, and so the
+# behavior might be weird.
+#
+# SynchronizeDoubleDoorOpen: automatically open the second door
+# when you click on one of the doors in a pair. Detection algorithm
+# checks for where the hinges are located.
+SynchronizeDoubleDoorOpen: true
+SynchronizeDoubleDoorClose: true
+
 # True if the door/gate/trapdoor closing sound should be played
 PlaySound: true
 

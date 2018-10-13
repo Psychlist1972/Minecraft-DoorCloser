@@ -7,13 +7,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 //import org.bukkit.Material;
 //import org.bukkit.block.data.type.*;
 import org.bukkit.block.data.Openable;
+import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Door.Hinge;
 import org.bukkit.block.data.type.Gate;
 import org.bukkit.block.data.type.TrapDoor;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+
+import javax.lang.model.util.ElementScanner6;
 
 //import javax.lang.model.util.ElementScanner6;
 
@@ -47,6 +51,7 @@ public final class InteractListener implements Listener
 		Action action = e.getAction();
 		 
 		// right clicks only
+		// TODO: Check to see if door was closed to begin with.
 		if (action == Action.RIGHT_CLICK_BLOCK)
 		{
 			Block clickedBlock = e.getClickedBlock();
@@ -98,19 +103,58 @@ public final class InteractListener implements Listener
 				{
 				//	_plugin.getLogger().info("DEBUG: Normal door found: " + clickedBlock.getType().toString());
 
+					Door door1 = (Door)(clickedBlock.getBlockData());
+
 					// check to see if they clicked the top of the door. If so, change to the block below it.
 					// Necessary because server only supports the door operations on the lower block.
 					// Do this only for doors so as not to mess up stacked gates or stacked trap doors
 					// This could fail if you somehow manage to get two doors stacked on top of each other.
 
-					// todo: look at the Bisected interface 
-					
-					if (clickedBlock.getRelative(BlockFace.DOWN).getType().equals(blockDoorType))
+					if (door1.getHalf() == Half.TOP)
 					{
+						_plugin.getLogger().info("DEBUG: Handling click on top half of door");
+
 						clickedBlock = clickedBlock.getRelative(BlockFace.DOWN);
+						door1 = (Door)clickedBlock.getBlockData();
 					}
-						 					 
-					ScheduleClose(clickedBlock, Settings.secondsToRemainOpen);				 			 
+
+					
+				
+					// here's where we check the double-door stuff.
+					Block pairedDoorBlock = GetPairedDoorBlockIfDoubleDoor(clickedBlock);
+
+					if (pairedDoorBlock == null)
+					{
+						// standard single door. Just close it.
+						_plugin.getLogger().info("DEBUG: single door block.");
+
+						ScheduleClose(clickedBlock, Settings.secondsToRemainOpen);				 			 
+					}
+					else 
+					{
+						_plugin.getLogger().info("DEBUG: double door block.");
+
+						// sync double door open if configured to do so
+						if (Settings.synchronizeDoubleDoorOpen)
+						{							
+							_plugin.getLogger().info("DEBUG: opening paired door.");
+							OpenDoor(pairedDoorBlock);
+						}
+
+						// sync double door close if configured to do so
+						if (Settings.synchronizeDoubleDoorClose)
+						{
+							_plugin.getLogger().info("DEBUG: scheduling double door closure");
+
+							ScheduleClose(clickedBlock, Settings.secondsToRemainOpen);
+
+							if (pairedDoorBlock != null)
+							{
+								ScheduleClose(pairedDoorBlock, Settings.secondsToRemainOpen);
+							}
+						}
+					}
+					
 				}
 				else
 				{
@@ -122,6 +166,8 @@ public final class InteractListener implements Listener
 	}
 	 
 	 
+
+
 
 	public void ScheduleClose(Block doorBlock, int seconds)
 	{		
@@ -147,8 +193,7 @@ public final class InteractListener implements Listener
 							{
 								//_plugin.getLogger().info("DEBUG: Closing open door");
 
-								doorData.setOpen(false);
-								doorBlock.setBlockData(doorData);
+								CloseDoor(doorBlock);
 								
 								if (Settings.playSound)
 								{
@@ -189,4 +234,167 @@ public final class InteractListener implements Listener
 			}, (long)seconds * TICKS_PER_SECOND);
 
 	} 
+
+
+	private Block GetPairedDoorBlockIfDoubleDoor(Block doorBlock)
+	{
+		if (doorBlock.getBlockData() instanceof Door)
+		{
+			Door doorData = (Door)(doorBlock.getBlockData());
+			Hinge hinge = doorData.getHinge();
+
+			_plugin.getLogger().info("DEBUG: door hinge is " + hinge.toString());
+
+	
+			Block pairedDoor = null;
+
+			BlockFace face = doorData.getFacing();
+
+			_plugin.getLogger().info("DEBUG: door face is " + face.toString());
+
+			switch (face)
+			{
+				case NORTH:
+					if (hinge == Hinge.LEFT)
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.EAST);	
+					}
+					else
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.WEST);	
+					}
+					break;
+
+				case SOUTH:
+					if (hinge == Hinge.LEFT)
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.WEST);	
+					}
+					else
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.EAST);	
+					}
+					break;
+
+				case EAST:
+					if (hinge == Hinge.LEFT)
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.SOUTH);	
+					}
+					else
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.NORTH);	
+					}
+					break;
+					
+				case WEST:
+					if (hinge == Hinge.LEFT)
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.NORTH);	
+					}
+					else
+					{
+						pairedDoor = doorBlock.getRelative(BlockFace.SOUTH);	
+					}
+					break;
+
+				default:
+					pairedDoor = null;
+					break;
+			}
+
+			if (pairedDoor != null)
+			{
+				// check the block we found that is opposite the hinge. If it
+				// is a door and has a hinge that is opposite this one, then
+				// it is our pair
+
+				BlockData data = pairedDoor.getBlockData();
+
+				// check to see if that block is actually a door
+				if (data instanceof Door)
+				{
+					_plugin.getLogger().info("DEBUG: Door neighbor is a door.");
+
+					Door door2 = (Door)data;
+
+					if ((hinge == Hinge.LEFT && door2.getHinge() == Hinge.RIGHT) ||
+						(hinge == Hinge.RIGHT && door2.getHinge() == Hinge.LEFT))
+					{
+						_plugin.getLogger().info("DEBUG: Found paired / double door");
+
+						// we're good!
+						return pairedDoor;
+					}
+					else
+					{
+						_plugin.getLogger().info("DEBUG: Neighbor has hinge on same side. Not a double door");
+
+						// neighbor block has hinge on same side
+						// not the pair for this door
+						return null;
+					}
+				}
+				else
+				{
+					_plugin.getLogger().info("DEBUG: Neighbor block is not a door. Not a double door.");
+
+					// neighbor block is not a door.
+					// door is a single door, not a double door
+					return null;
+				}
+			}
+			else
+			{
+				// no block next door. That would be ... odd
+				// door is a single door, not double
+				return null;
+			}
+		}
+		else
+		{
+			_plugin.getLogger().warning("Bogus block type passed into GetPairedDoorBlockIfDoubleDoor.");
+			return null;
+		}
+	}
+
+
+	private void OpenDoor(Block doorBlock)
+	{
+
+		BlockData data = doorBlock.getBlockData();
+
+		if (data instanceof Openable)
+		{
+			((Openable)data).setOpen(true);
+
+			doorBlock.setBlockData(data);
+		}
+		else
+		{
+			// someone passed in a bogus block
+		}
+	}
+
+	private void CloseDoor(Block doorBlock)
+	{
+
+		BlockData data = doorBlock.getBlockData();
+
+		if (data instanceof Openable)
+		{
+			((Openable)data).setOpen(false);
+
+			doorBlock.setBlockData(data);
+		}
+		else
+		{
+			// someone passed in a bogus block
+		}
+	}
+
+
+
+
+
 }

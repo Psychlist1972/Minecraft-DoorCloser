@@ -11,6 +11,9 @@ public class Settings
 	public static boolean ignoreIfSneaking = false;
 	public static boolean playSound = true;
 
+	public static boolean synchronizeDoubleDoorOpen = true;
+	public static boolean synchronizeDoubleDoorClose = true;
+
 	public static List<Material> doorsInScope = new ArrayList<Material>();
 	public static List<Material> gatesInScope = new ArrayList<Material>();
 	public static List<Material> trapDoorsInScope = new ArrayList<Material>();
@@ -44,6 +47,10 @@ public class Settings
 		Settings.ignoreIfInCreative = ThisPlugin.getConfig().getBoolean("IgnoreIfInCreative");
 		Settings.ignoreIfSneaking = ThisPlugin.getConfig().getBoolean("IgnoreIfSneaking");
 		Settings.playSound = ThisPlugin.getConfig().getBoolean("PlaySound");
+
+		Settings.synchronizeDoubleDoorOpen = ThisPlugin.getConfig().getBoolean("SynchronizeDoubleDoorOpen");
+		Settings.synchronizeDoubleDoorClose = ThisPlugin.getConfig().getBoolean("SynchronizeDoubleDoorClose");
+
 		
 		List<String> trapDoorsInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("TrapDoorBlocks");
 		List<String> gatesInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("GateBlocks");
