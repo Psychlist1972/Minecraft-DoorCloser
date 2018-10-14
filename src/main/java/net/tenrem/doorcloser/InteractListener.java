@@ -247,7 +247,7 @@ public final class InteractListener implements Listener
 				@Override
 				public void run()
 				{
-					_plugin.getLogger().info("DEBUG: In scheduled door close .");
+					//_plugin.getLogger().info("DEBUG: In scheduled door close .");
 
 
 					if (door1Block != null)
@@ -313,9 +313,9 @@ public final class InteractListener implements Listener
 
 			BlockFace face = doorData.getFacing();
 
-			_plugin.getLogger().info("DEBUG: door face=" + face.toString());
-			_plugin.getLogger().info("DEBUG: door isOpen()=" + doorData.isOpen());
-			_plugin.getLogger().info("DEBUG: door hinge=" + hinge.toString());
+			//_plugin.getLogger().info("DEBUG: door face=" + face.toString());
+			//_plugin.getLogger().info("DEBUG: door isOpen()=" + doorData.isOpen());
+			//_plugin.getLogger().info("DEBUG: door hinge=" + hinge.toString());
 
 			switch (face)
 			{
@@ -382,9 +382,9 @@ public final class InteractListener implements Listener
 					Door door2 = (Door)data;
 
 					//_plugin.getLogger().info("DEBUG: Door neighbor is a door.");
-					_plugin.getLogger().info("DEBUG: paired door face=" + door2.getFacing().toString());
-					_plugin.getLogger().info("DEBUG: paired door isOpen()=" + door2.isOpen());
-					_plugin.getLogger().info("DEBUG: paired door hinge=" + door2.getHinge().toString());
+					//_plugin.getLogger().info("DEBUG: paired door face=" + door2.getFacing().toString());
+					//_plugin.getLogger().info("DEBUG: paired door isOpen()=" + door2.isOpen());
+					//_plugin.getLogger().info("DEBUG: paired door hinge=" + door2.getHinge().toString());
 
 
 					if ((hinge == Hinge.LEFT && door2.getHinge() == Hinge.RIGHT) ||
