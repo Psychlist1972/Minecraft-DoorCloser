@@ -90,14 +90,14 @@ public final class InteractListener implements Listener
 				 
 				else if (blockData instanceof Gate && Settings.gatesInScope.contains(blockDoorType))
 				{
-					ScheduleClose(clickedBlock, null, Settings.secondsToRemainOpen);				 
+					ScheduleClose(clickedBlock, null, Settings.secondsToRemainOpen);	
 				}
 				 
 				else if (blockData instanceof Door && Settings.doorsInScope.contains(blockDoorType))
 				{
 				//	_plugin.getLogger().info("DEBUG: Normal door found: " + clickedBlock.getType().toString());
 
-					Door door1 = (Door)(clickedBlock.getBlockData());
+					Door door1 = (Door)blockData;
 
 					//_plugin.getLogger().info("DEBUG: Clicked door state during event: isOpen()=" + door1.isOpen());
 
@@ -116,27 +116,42 @@ public final class InteractListener implements Listener
 					
 				
 					// here's where we check the double-door stuff.
-					Block pairedDoorBlock = GetPairedDoorBlockIfDoubleDoor(clickedBlock);
+					Block pairedDoorBlock = GetPairedDoorBlockIfDoubleDoor(clickedBlock);				
 					Door pairedDoor = DoorFromBlock(pairedDoorBlock);
 
-					if (pairedDoorBlock == null)
+					if (pairedDoorBlock == null || pairedDoor == null)
 					{
-						// standard single door. Just close it.
-						ScheduleClose(clickedBlock, null, Settings.secondsToRemainOpen);				 			 
+						// isOpen is not yet true at this point
+						// would be better to find a way to update the state and THEN do the check
+						if (!door1.isOpen())
+						{
+							// standard single door. Just close it.
+							ScheduleClose(clickedBlock, null, Settings.secondsToRemainOpen);				 			 
+						}
 					}
 					else 
 					{
-						// sync double door open if configured to do so
-						// the clicked door's state doesn't change to opened until after the event
-						if (Settings.synchronizeDoubleDoorOpen && !door1.isOpen())
+						// sync double door OPEN if configured to do so. This is an add-on to
+						// what the rest of this plugin is handling.
+						// Note that the clicked door's state doesn't change to opened until after the event
+						// or it could just be a timing thing.
+						if (Settings.synchronizeDoubleDoorOpen)
 						{							
 							OpenDoor(pairedDoorBlock);
+
+							// door was just opened. sync closing both doors
+							ScheduleClose(clickedBlock, pairedDoorBlock, Settings.secondsToRemainOpen);
 						}
 
-						// sync double door close if configured to do so
-						if ((door1.isOpen() || pairedDoor.isOpen()) && Settings.synchronizeDoubleDoorClose)
+						// Sync double door manual close. This is an add-on to what the plugin handles
+						if (pairedDoorBlock != null && pairedDoor != null)
 						{
-							ScheduleClose(clickedBlock, pairedDoorBlock, Settings.secondsToRemainOpen);
+							// sync double door close if configured to do so
+							if ((door1.isOpen() || pairedDoor.isOpen()) && Settings.synchronizeDoubleDoorClose)
+							{
+								CloseDoor(pairedDoorBlock);
+								PlayCloseNoise(pairedDoorBlock);
+							}
 						}
 					}
 					
@@ -224,7 +239,7 @@ public final class InteractListener implements Listener
 		}
 	}
 
-	public void ScheduleClose(Block doorBlock, Block pairedDoorBlock, int seconds)
+	public void ScheduleClose(Block door1Block, Block pairedDoorBlock, int seconds)
 	{		
 		// Schedule the closing to happen at apx "seconds" seconds from now.
 		Bukkit.getScheduler().runTaskLater(_plugin, new Runnable()
@@ -232,38 +247,54 @@ public final class InteractListener implements Listener
 				@Override
 				public void run()
 				{
-					Openable door1Data = OpenableFromBlock(doorBlock);
-					Openable pairedDoorData = OpenableFromBlock(pairedDoorBlock);
+					_plugin.getLogger().info("DEBUG: In scheduled door close .");
 
-					if (door1Data != null)
-					{						
-						// this is the point of the whole plugin right here.
-						if (door1Data.isOpen())
+
+					if (door1Block != null)
+					{
+						Openable door1Data = OpenableFromBlock(door1Block);
+
+						if (door1Data != null)
+						{						
+							if (door1Data.isOpen())
+							{
+								CloseDoor(door1Block);
+								PlayCloseNoise(door1Block);
+							}
+						}
+						else
 						{
-							CloseDoor(doorBlock);
-							PlayCloseNoise(doorBlock);
+							_plugin.getLogger().warning("Tried to close door block, but block data was null or not correct type.");
 						}
 					}
 					else
 					{
-						_plugin.getLogger().warning("Tried to close door block, but block data was null or not correct type.");
+						_plugin.getLogger().warning("Null main door block sent to ScheduleClose.");
 					}
 
-					if (pairedDoorData != null)
-					{						
-						// this is the point of the whole plugin right here.
-						if (pairedDoorData.isOpen())
+
+					if (pairedDoorBlock != null)
+					{
+						Openable pairedDoorData = OpenableFromBlock(pairedDoorBlock);
+
+						if (pairedDoorData != null)
+						{						
+							if (pairedDoorData.isOpen())
+							{
+								CloseDoor(pairedDoorBlock);
+								PlayCloseNoise(pairedDoorBlock);
+							}
+						}
+						else
 						{
-							CloseDoor(pairedDoorBlock);
-							PlayCloseNoise(pairedDoorBlock);
+							_plugin.getLogger().warning("Tried to close paired door block, but block data was null or not correct type.");	
 						}
 					}
 					else
 					{
-						_plugin.getLogger().warning("Tried to close paired door block, but block data was null or not correct type.");
+						// this would typically be null for single doors, trap doors, etc.
+						// do nothing
 					}
-
-
 				}
 		
 			}, (long)seconds * TICKS_PER_SECOND);
@@ -278,14 +309,13 @@ public final class InteractListener implements Listener
 			Door doorData = (Door)(doorBlock.getBlockData());
 			Hinge hinge = doorData.getHinge();
 
-			//_plugin.getLogger().info("DEBUG: door hinge is " + hinge.toString());
-
-	
 			Block pairedDoor = null;
 
 			BlockFace face = doorData.getFacing();
 
-			//_plugin.getLogger().info("DEBUG: door face is " + face.toString());
+			_plugin.getLogger().info("DEBUG: door face=" + face.toString());
+			_plugin.getLogger().info("DEBUG: door isOpen()=" + doorData.isOpen());
+			_plugin.getLogger().info("DEBUG: door hinge=" + hinge.toString());
 
 			switch (face)
 			{
@@ -349,9 +379,13 @@ public final class InteractListener implements Listener
 				// check to see if that block is actually a door
 				if (data instanceof Door)
 				{
-					//_plugin.getLogger().info("DEBUG: Door neighbor is a door.");
-
 					Door door2 = (Door)data;
+
+					//_plugin.getLogger().info("DEBUG: Door neighbor is a door.");
+					_plugin.getLogger().info("DEBUG: paired door face=" + door2.getFacing().toString());
+					_plugin.getLogger().info("DEBUG: paired door isOpen()=" + door2.isOpen());
+					_plugin.getLogger().info("DEBUG: paired door hinge=" + door2.getHinge().toString());
+
 
 					if ((hinge == Hinge.LEFT && door2.getHinge() == Hinge.RIGHT) ||
 						(hinge == Hinge.RIGHT && door2.getHinge() == Hinge.LEFT))

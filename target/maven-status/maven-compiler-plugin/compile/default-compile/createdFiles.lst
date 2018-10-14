@@ -1,4 +1,5 @@
 net\tenrem\doorcloser\CommandReload.class
+net\tenrem\doorcloser\InteractListener$2.class
 net\tenrem\doorcloser\InteractListener$1.class
 net\tenrem\doorcloser\InteractListener.class
 net\tenrem\doorcloser\Settings.class
