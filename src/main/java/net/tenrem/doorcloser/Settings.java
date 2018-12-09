@@ -65,7 +65,13 @@ public class Settings
 			Material m = Material.matchMaterial(val);	
 			
 			if (m != null)
+			{
 				Settings.trapDoorsInScope.add(m);
+			}
+			else
+			{
+				ThisPlugin.getLogger().warning("Unexpected value '" + val + "' in config trap door list.");
+			}
 		}
 		
 		for (String val : gatesInScopeStrings)
@@ -73,7 +79,13 @@ public class Settings
 			Material m = Material.matchMaterial(val);
 
 			if (m != null)
+			{
 				Settings.gatesInScope.add(m);
+			}
+			else
+			{
+				ThisPlugin.getLogger().warning("Unexpected value '" + val + "' in config gate list.");
+			}
 		}
 		
 		for (String val : doorsInScopeStrings)
@@ -81,7 +93,14 @@ public class Settings
 			Material m = Material.matchMaterial(val);
 
 			if (m != null)
+			{
 				Settings.doorsInScope.add(m);
+			}
+			else
+			{
+				ThisPlugin.getLogger().warning("Unexpected value '" + val + "' in config door list.");
+			}
+	
 		}
 		
 		

@@ -1,6 +1,10 @@
 # Config file for DoorCloser
 
 # Time (in integer seconds) to allow the door to remain open
+# This is an estimate. How long it really stays open depends
+# on how quickly Spigot can get to the event handler. It won't
+# be faster than this, but will typically be slower, again, 
+# depending upon server load, number of plugins running, etc.
 Time: 10
 
 # double-door handling. This is a bit outside the original scope

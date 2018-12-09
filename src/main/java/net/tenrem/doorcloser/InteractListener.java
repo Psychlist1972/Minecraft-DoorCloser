@@ -42,16 +42,14 @@ public final class InteractListener implements Listener
 	}
 	
 
-	// TODO: It was asked this plugin also make it so double-doors open together. To do that, check Door.Hinge etc.
 	
 	// This is going to fire for every interaction, so need to exit it quickly if it's not what we want to handle
-	@EventHandler(priority=EventPriority.NORMAL)
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void blockInteract(PlayerInteractEvent e) 
 	{
 		Action action = e.getAction();
-		 
+		
 		// right clicks only
-		// TODO: Check to see if door was closed to begin with.
 		if (action == Action.RIGHT_CLICK_BLOCK)
 		{
 			Block clickedBlock = e.getClickedBlock();
