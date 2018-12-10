@@ -44,7 +44,7 @@ public final class InteractListener implements Listener
 
 	
 	// This is going to fire for every interaction, so need to exit it quickly if it's not what we want to handle
-	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
 	public void blockInteract(PlayerInteractEvent e) 
 	{
 		Action action = e.getAction();

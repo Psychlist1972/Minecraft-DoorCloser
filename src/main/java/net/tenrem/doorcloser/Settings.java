@@ -52,9 +52,9 @@ public class Settings
 		Settings.synchronizeDoubleDoorClose = ThisPlugin.getConfig().getBoolean("SynchronizeDoubleDoorClose");
 
 		
-		List<String> trapDoorsInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("TrapDoorBlocks");
-		List<String> gatesInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("GateBlocks");
-		List<String> doorsInScopeStrings = (List<String>) ThisPlugin.getConfig().getList("DoorBlocks");
+		List<String> trapDoorsInScopeStrings = (List<String>) ThisPlugin.getConfig().getStringList("TrapDoorBlocks");
+		List<String> gatesInScopeStrings = (List<String>) ThisPlugin.getConfig().getStringList("GateBlocks");
+		List<String> doorsInScopeStrings = (List<String>) ThisPlugin.getConfig().getStringList("DoorBlocks");
 
 		trapDoorsInScope.clear();
 		gatesInScope.clear();
