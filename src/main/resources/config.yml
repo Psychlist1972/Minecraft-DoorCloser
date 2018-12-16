@@ -2,6 +2,14 @@
 # Generated from plugin version ${project.version}
 GeneratedByVersion: ${project.version}
 
+# IgnoreCanceledEvents
+# This is an internal thing, mostly for debugging interaction
+# with other plugins. The plugin should always ignore 
+# canceled events unless you've found a very specific
+# reason not to
+IgnoreCanceledEvents: true
+
+
 # Time: Time (in integer seconds) to allow the door to remain open
 # This is an estimate. How long it really stays open depends
 # on how quickly Spigot can get to the event handler. It won't
@@ -59,3 +67,50 @@ DoorBlocks:
 - jungle_door
 - acacia_door
 - dark_oak_door
+
+
+# EnableWorldGuardIntegration: true/false. True if you want to 
+# enable integration with world guard. If false, the world guard-
+# related settings will be ignored. If true, you must have a 
+# compatible version of world guard on this server. The minimum
+# wolrd guard version is 7.0
+EnableWorldGuardIntegration: true
+
+# UseWorldGuardFlag: true/false. True if you want to use the 
+# world guard flag for handling which regions enable/disable
+# this behavior. If you set this to false, you need to use
+# the Regions group here in the config file
+UseWorldGuardFlag: true
+
+
+# WorldGuard region behavior
+# UnlistedRegionBehavior: how to handle regions that aren't called out
+#     disabled - the door open/close behavior will be disabled
+#     enabled - the door open/close behavior will be enabled
+UnlistedRegionBehavior: enabled  
+
+# OverlappingRegionPriorityBehavior: how to handle overlapping 
+# region conflicts
+#     lowestPriority - use the region priority. Lowest value wins
+#     highestPriority - use the region priority. Highest value wins.
+# 
+OverlappingRegionPriorityBehavior: highestPriority
+
+
+
+
+# LogSamePriorityRegionConflictResolution: true if you want to log
+# the fact that the conflict resolution had to be engaged
+LogSamePriorityRegionConflictResolution: true
+
+# RegionListType: 
+#     whitelist - list of regions to enable door close/open behavior
+#     blacklist - list of regions to DISABLE door close/open behavior
+# all other regions are set to the UnlistedRegionBehavior
+RegionListType: whitelist
+
+# Regions: grouping for the listed regions 
+Regions:
+  - region_name_1
+  - region_name_2
+  - region_name_3  

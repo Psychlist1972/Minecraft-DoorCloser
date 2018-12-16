@@ -8,6 +8,7 @@ public class DoorCloserPlugin extends JavaPlugin
 	public void onEnable() 
 	{	
 		Settings.ThisPlugin = this;
+		RegionHandler.ThisPlugin = this;
 		
 		Settings.ReadConfigValues();
 	

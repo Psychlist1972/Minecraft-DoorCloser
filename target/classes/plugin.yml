@@ -3,6 +3,7 @@ main: net.tenrem.doorcloser.DoorCloserPlugin
 version: 1.1.0
 api-version: 1.13
 author: Pete Brown 10rem.net
+softdepend: [WorldGuard]
 commands:
    dcreload:
       description: Reload the configuration file.
