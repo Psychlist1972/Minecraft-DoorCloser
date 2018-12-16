@@ -45,7 +45,7 @@ public final class InteractListener implements Listener
 		// if the event has been canceled and we're not ignoring canceled events, quit
 		// the only reason we check here instead of in the @EventHandler directive is
 		// so this can be changed in the config file
-		if (e.isCancelled() && !Settings.ignoreCanceledEvents)
+		if (e.isCancelled() && Settings.ignoreCanceledEvents)
 		{
 			return;
 		}
