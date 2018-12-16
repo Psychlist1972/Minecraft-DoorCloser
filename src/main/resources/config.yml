@@ -1,11 +1,13 @@
 # Config file for DoorCloser
+# Generated from plugin version ${project.version}
+GeneratedByVersion: ${project.version}
 
-# Time (in integer seconds) to allow the door to remain open
+# Time: Time (in integer seconds) to allow the door to remain open
 # This is an estimate. How long it really stays open depends
 # on how quickly Spigot can get to the event handler. It won't
 # be faster than this, but will typically be slower, again, 
 # depending upon server load, number of plugins running, etc.
-Time: 10
+Time: 5
 
 # double-door handling. This is a bit outside the original scope
 # of this plugin, but was a community request. It's optional here
@@ -15,19 +17,20 @@ Time: 10
 # SynchronizeDoubleDoorOpen: automatically open the second door
 # when you click on one of the doors in a pair. Detection algorithm
 # checks for where the hinges are located.
+# SynchronizeDoubleDoorClose: same thing, but synchronizes closing
 SynchronizeDoubleDoorOpen: true
 SynchronizeDoubleDoorClose: true
 
-# True if the door/gate/trapdoor closing sound should be played
+# PlaySound: True if the door/gate/trapdoor closing sound should be played
 PlaySound: true
 
-# true if you want to ignore the door when the player is in creative mode
-# if this is not set to true, you'll never be able to create an open door
-# unless you turn on sneaking.
+# IgnoreIfInCreative: true if you want to ignore the door when the player 
+# is in creative mode if this is not set to true, you'll never be able to 
+# create an open door unless you turn on sneaking.
 IgnoreIfInCreative: true
 
-# true if you want to ignore the door when the player is sneaking
-# note that this will work for all players, not just someone in creative
+# IgnoreIfSneaking: true if you want to ignore the door when the player is 
+# sneaking. This will work for all players, not just someone in creative
 IgnoreIfSneaking: false
 
 # List of Block IDs for blocks (trap doors, gates, and doors) that you want to auto-close

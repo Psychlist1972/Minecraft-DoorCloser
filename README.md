@@ -6,13 +6,13 @@ You can configure which ones are in scope to be auto-closed, as well as if it sh
 Requires
 * Java 1.8
 * Minecraft Spigot 1.12 (for 1.0.3 plugin)
-* Minecraft Spigot 1.13.1 (for subsequent plugin versions)
+* Minecraft Spigot 1.13.2 (for subsequent plugin versions)
 
 Latest .jar file can be found in the /target folder
 
 Latest standard configuration File can be found in /src/main/resources/config.yml. It's also auto-generated when you load the plugin for the first time.
 
-1.13.1 version supports all new 1.13 types.
+1.13.2 version supports all new 1.13 types.
 
 Spigot resource page:
 https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
