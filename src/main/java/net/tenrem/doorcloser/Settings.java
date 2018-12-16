@@ -5,49 +5,54 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Settings 
 {
 	final static String configFileGeneratedByVersion_Key = "GeneratedByVersion";
-
-	final static String secondsToRemainOpen_Key = "Time";
-	final static String synchronizeDoubleDoorOpen_Key = "SynchronizeDoubleDoorOpen";
-	final static String synchronizeDoubleDoorClose_Key = "SynchronizeDoubleDoorClose1";	
-	final static String playSound_Key = "PlaySound";
-
-	final static String ignoreIfInCreative_Key = "IgnoreIfInCreative";
-	final static String ignoreIfSneaking_Key = "IgnoreIfSneaking";
-
-	final static String trapDoorsInScope_Key = "TrapDoorBlocks";
-	final static String gatesInScope_Key = "GateBlocks";
-	final static String doorsInScope_Key = "DoorBlocks";
-
-
 	final static String configFileGeneratedByVersion_Default = "unknown (pre 1.0.12)";
-	final static int secondsToRemainOpen_Default = 5;
-
-	final static boolean synchronizeDoubleDoorOpen_Default = true;
-	final static boolean synchronizeDoubleDoorClose_Default = true;
-	final static boolean playSound_Default = true;
-
-	final static boolean ignoreIfInCreative_Default = true;
-	final static boolean ignoreIfSneaking_Default = false;
-
-
 	public static String configFileGeneratedByVersion = configFileGeneratedByVersion_Default;
 
+	final static String ignoreCanceledEvents_Key = "IgnoreCanceledEvents";
+	final static boolean ignoreCanceledEvents_Default = true;
+	public static boolean ignoreCanceledEvents = ignoreCanceledEvents_Default;
+
+	final static String secondsToRemainOpen_Key = "Time";
+	final static int secondsToRemainOpen_Default = 5;
 	public static int secondsToRemainOpen = secondsToRemainOpen_Default;
+
+
+	final static String synchronizeDoubleDoorOpen_Key = "SynchronizeDoubleDoorOpen";
+	final static boolean synchronizeDoubleDoorOpen_Default = true;
 	public static boolean synchronizeDoubleDoorOpen = synchronizeDoubleDoorOpen_Default;
+
+	final static String synchronizeDoubleDoorClose_Key = "SynchronizeDoubleDoorClose1";	
+	final static boolean synchronizeDoubleDoorClose_Default = true;
 	public static boolean synchronizeDoubleDoorClose = synchronizeDoubleDoorClose_Default;
+
+	final static String playSound_Key = "PlaySound";
+	final static boolean playSound_Default = true;
 	public static boolean playSound = playSound_Default;
 
+
+	final static String ignoreIfInCreative_Key = "IgnoreIfInCreative";
+	final static boolean ignoreIfInCreative_Default = true;
 	public static boolean ignoreIfInCreative = ignoreIfInCreative_Default;
+
+	final static String ignoreIfSneaking_Key = "IgnoreIfSneaking";
+	final static boolean ignoreIfSneaking_Default = false;
 	public static boolean ignoreIfSneaking = ignoreIfSneaking_Default;
 
+	final static String trapDoorsInScope_Key = "TrapDoorBlocks";
 	public static List<Material> trapDoorsInScope = new ArrayList<Material>();
+
+	final static String gatesInScope_Key = "GateBlocks";
 	public static List<Material> gatesInScope = new ArrayList<Material>();
+
+	final static String doorsInScope_Key = "DoorBlocks";
 	public static List<Material> doorsInScope = new ArrayList<Material>();
-	
+
+
 	public static DoorCloserPlugin ThisPlugin;
 
 	
@@ -72,6 +77,7 @@ public class Settings
 		ThisPlugin.saveDefaultConfig();		
 		
 		FileConfiguration config = ThisPlugin.getConfig();
+		Logger logger = ThisPlugin.getLogger();
 
 		config.addDefault(configFileGeneratedByVersion_Key, configFileGeneratedByVersion_Default);
 		config.addDefault(secondsToRemainOpen_Key, secondsToRemainOpen_Default);
@@ -84,7 +90,8 @@ public class Settings
 		// read settings
 
 		Settings.configFileGeneratedByVersion = ThisPlugin.getConfig().getString(configFileGeneratedByVersion_Key);
-
+		Settings.ignoreCanceledEvents = config.getBoolean(ignoreCanceledEvents_Key);
+		
 		Settings.secondsToRemainOpen = ThisPlugin.getConfig().getInt(secondsToRemainOpen_Key);
 
 		Settings.synchronizeDoubleDoorOpen = ThisPlugin.getConfig().getBoolean(synchronizeDoubleDoorOpen_Key);

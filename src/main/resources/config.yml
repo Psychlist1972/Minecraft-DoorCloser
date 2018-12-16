@@ -1,6 +1,19 @@
 # Config file for DoorCloser
-# Generated from plugin version ${project.version}
+# If you make any changes to this file, you must restart
+# your server or use the /dcreload command.
+
+# GeneratedByVersion
+# Generated from plugin version ${project.version}. I do
+# not recommend making any manual change to this value. It's
+# here for future compatibility.
 GeneratedByVersion: ${project.version}
+
+# IgnoreCanceledEvents
+# This is an internal thing, mostly for debugging interaction
+# with other plugins. The plugin should always ignore 
+# canceled events unless you've found a very specific
+# reason not to
+IgnoreCanceledEvents: true
 
 # Time: Time (in integer seconds) to allow the door to remain open
 # This is an estimate. How long it really stays open depends

@@ -39,9 +39,17 @@ public final class InteractListener implements Listener
 
 	
 	// This is going to fire for every interaction, so need to exit it quickly if it's not what we want to handle
-	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void blockInteract(PlayerInteractEvent e) 
 	{
+		// if the event has been canceled and we're not ignoring canceled events, quit
+		// the only reason we check here instead of in the @EventHandler directive is
+		// so this can be changed in the config file
+		if (e.isCancelled() && !Settings.ignoreCanceledEvents)
+		{
+			return;
+		}
+
 		Action action = e.getAction();
 		
 		// right clicks only
