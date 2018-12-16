@@ -1,6 +1,6 @@
 # Config file for DoorCloser
-# Generated from plugin version 1.0.12
-GeneratedByVersion: 1.0.12
+# Generated from plugin version 1.1.0
+GeneratedByVersion: 1.1.0
 
 # Time: Time (in integer seconds) to allow the door to remain open
 # This is an estimate. How long it really stays open depends
