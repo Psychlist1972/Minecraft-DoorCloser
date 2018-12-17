@@ -46,11 +46,23 @@ public final class InteractListener implements Listener
 		// if the event has been canceled and we're not ignoring canceled events, quit
 		// the only reason we check here instead of in the @EventHandler directive is
 		// so this can be changed in the config file
-		if (e.isCancelled() && !Settings.ignoreCanceledEvents)
+		if (e.isCancelled() && Settings.respectEventCancellation)
 		{
 			return;
 		}
 
+		// exit ASAP if no configured blocks
+		if (Settings.trapDoorsInScope.isEmpty() && Settings.gatesInScope.isEmpty() && Settings.doorsInScope.isEmpty())
+		{
+			return;
+		}
+
+		// TODO: Check permissions
+
+
+
+
+		// ok. we've passed the basic checks. Now let's see what the player did
 		Action action = e.getAction();
 
 		// right clicks only
@@ -62,7 +74,7 @@ public final class InteractListener implements Listener
 			// check to see if we care about this type of block. In our case, we want
 			// something that implements Openable (gate, trap door, door).
 			if (blockData instanceof Openable)
-			{		 
+			{		
 				 // check to see if we're ignoring creative mode
 				if ((e.getPlayer().getGameMode() == GameMode.CREATIVE) && (Settings.ignoreIfInCreative))
 				{
@@ -74,7 +86,17 @@ public final class InteractListener implements Listener
 				{
 					return;
 				}
-		      
+			  				
+				// Check to see if this passes WorldGuard tests
+				// this only checks the clicked block, so the region needs
+				// to include all blocks that make up the door
+				if (SharedState.WorldGuardIntegrationEnabled && !WorldGuardInterface.IsPluginBehaviorEnabledHere(clickedBlock, e.getPlayer()))
+				{
+					return;
+				}
+
+
+
 				
 				Material blockDoorType = blockData.getMaterial();
 				 

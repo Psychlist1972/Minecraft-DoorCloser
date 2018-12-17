@@ -2,12 +2,13 @@
 # Generated from plugin version 1.1.0
 GeneratedByVersion: 1.1.0
 
-# IgnoreCanceledEvents
+# RespectEventCancellation
 # This is an internal thing, mostly for debugging interaction
 # with other plugins. The plugin should always ignore 
 # canceled events unless you've found a very specific
-# reason not to
-IgnoreCanceledEvents: true
+# reason not to. True for normal behavior, false to process
+# events even if they were canceled by another plugin.
+RespectEventCancellation: true
 
 
 # Time: Time (in integer seconds) to allow the door to remain open
@@ -81,6 +82,16 @@ EnableWorldGuardIntegration: true
 # this behavior. If you set this to false, you need to use
 # the Regions group here in the config file
 UseWorldGuardFlag: true
+
+# WorldGuardFlag
+# This is actual name of the flag used in WorldGuard. If you plan
+# to change this, you need to do so before using the plugin, and 
+# you must restart the server. Reloading the config is not enough.
+# The plugin will register this flag on startup. If you change it
+# later, you'll have an extra flag in WorldGuard. If you change
+# it later and you've already used the old one, the flag value
+# will be stored, but not used. You'll have to re-do your work.
+WorldGuardFlag: door-closer-enabled
 
 
 # WorldGuard region behavior

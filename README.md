@@ -14,6 +14,13 @@ Latest standard configuration File can be found in /src/main/resources/config.ym
 
 1.13.2 version supports all new 1.13 types.
 
+## Config file changes
+If you used 1.0.14+ you had a configuraiton file entery "IgnoreCanceledEvents". The naming of that was a big ambiguous and has been changed to "RespectEventCancellation" in this version. Please be sure to update your config files.
+
+There are a number of other important config file changes. I recommend regenerating your config with this release.
+
+## More details
+
 Spigot resource page:
 https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
 

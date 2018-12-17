@@ -7,7 +7,7 @@
   <version>1.1.0</version>
   
     <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}-SNAPSHOT</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
