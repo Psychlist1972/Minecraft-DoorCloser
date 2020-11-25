@@ -3,14 +3,14 @@
 # your server or use the /dcreload command.
 
 # GeneratedByVersion
-# Generated from plugin version 1.0.13. I do
+# Generated from plugin version 1.0.14. I do
 # not recommend making any manual change to this value. It's
 # here for future compatibility.
-GeneratedByVersion: 1.0.13
+GeneratedByVersion: 1.0.14
 
 # IgnoreCanceledEvents
 # This is an internal thing, mostly for debugging interaction
-# with other plugins. The plugin should always ignore 
+# with other plugins. The plugin should always ignore
 # canceled events unless you've found a very specific
 # reason not to
 IgnoreCanceledEvents: true
@@ -18,7 +18,7 @@ IgnoreCanceledEvents: true
 # Time: Time (in integer seconds) to allow the door to remain open
 # This is an estimate. How long it really stays open depends
 # on how quickly Spigot can get to the event handler. It won't
-# be faster than this, but will typically be slower, again, 
+# be faster than this, but will typically be slower, again,
 # depending upon server load, number of plugins running, etc.
 Time: 5
 
@@ -37,12 +37,12 @@ SynchronizeDoubleDoorClose: true
 # PlaySound: True if the door/gate/trapdoor closing sound should be played
 PlaySound: true
 
-# IgnoreIfInCreative: true if you want to ignore the door when the player 
-# is in creative mode if this is not set to true, you'll never be able to 
+# IgnoreIfInCreative: true if you want to ignore the door when the player
+# is in creative mode if this is not set to true, you'll never be able to
 # create an open door unless you turn on sneaking.
 IgnoreIfInCreative: true
 
-# IgnoreIfSneaking: true if you want to ignore the door when the player is 
+# IgnoreIfSneaking: true if you want to ignore the door when the player is
 # sneaking. This will work for all players, not just someone in creative
 IgnoreIfSneaking: false
 
@@ -56,6 +56,8 @@ TrapDoorBlocks:
 - jungle_trapdoor
 - oak_trapdoor
 - spruce_trapdoor
+- warped_trapdoor
+- crimson_trapdoor
 
 GateBlocks:
 - oak_fence_gate
@@ -64,6 +66,8 @@ GateBlocks:
 - jungle_fence_gate
 - dark_oak_fence_gate
 - acacia_fence_gate
+- warped_fence_gate
+- crimson_fence_gate
 
 DoorBlocks:
 - oak_door
@@ -72,3 +76,5 @@ DoorBlocks:
 - jungle_door
 - acacia_door
 - dark_oak_door
+- warped_door
+- crimson_door

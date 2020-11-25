@@ -12,7 +12,7 @@ Latest .jar file can be found in the /target folder
 
 Latest standard configuration File can be found in /src/main/resources/config.yml. It's also auto-generated when you load the plugin for the first time.
 
-1.13.2 version supports all new 1.13 types.
+1.16 version supports all new 1.16 types.
 
 Spigot resource page:
 https://www.spigotmc.org/resources/auto-door-closer-for-spigot.44093/
