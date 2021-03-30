@@ -47,10 +47,9 @@
                 <configuration>
                     <proguardVersion>6.2.2</proguardVersion>
                     <options>
-                        <option>-keep public class net.tenrem.doorcloser.DoorCloserPlugin</option>
+                        <option>-keep class net.tenrem.doorcloser.DoorCloserPlugin</option>
                         <option>-dontshrink</option>
-                        <option>-dontoptimize</option>
-                        <option>-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod</option>
+                        <option>-keepattributes *Annotation*</option>
                     </options>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
