@@ -1,6 +1,0 @@
-target/maven-status/
-
-target/DoorCloser-*.jar
-
-# Dont ignore this file:
-!target/DoorCloser-1.0.14.jar
