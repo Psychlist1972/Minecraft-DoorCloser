@@ -1,0 +1,4 @@
+target/*
+
+# Don't ignore these:
+!target/DoorCloser-*.jar
