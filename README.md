@@ -1,5 +1,8 @@
 # Minecraft-DoorCloser
-Minecraft (Spigot server) plugin to automatically close doors / gates / trap-doors that were opened by a player. 
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/b06729f9ad52a89296e4/maintainability)](https://codeclimate.com/github/Maingron/Minecraft-DoorCloser/maintainability)
+
+Minecraft (Spigot server) plugin to automatically close doors / gates / trap-doors that were opened by a player.
 
 You can configure which ones are in scope to be auto-closed, as well as if it should close when the player is in creative mode or is sneaking. I recommend leaving both of those as false to support using things like trap doors as decoration blocks (sides of chairs, etc.)
 
